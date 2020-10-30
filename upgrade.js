@@ -1,26 +1,30 @@
 window.onload = function () {
-  // Removes To-Do List
-  document.querySelector(".Sidebar__TodoListContainer").innerHTML = "";
+  /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DASHBOARD ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+  if (window.location.pathname === "/") {
+    // Removes To-Do List
+    const toDo = document.getElementsByClassName(
+      "Sidebar__TodoListContainer"
+    )[0];
+    if (toDo) toDo.innerHTML = "";
 
-  chrome.storage.sync.get(["courses"], function (result) {
-    if (result) {
-      console.log(result);
-      alert("Courses Are: " + JSON.stringify(result));
-    } else {
-      const script = document.createElement("script");
+    // Gets Courses
+    const script = document.createElement("script");
 
-      script.textContent = `document.getElementById("Get_ENV_Variable").innerHTML = JSON.stringify(ENV.STUDENT_PLANNER_COURSES)`;
-      script.id = "Get_ENV_Variable";
+    script.id = "Get_ENV_Variable";
+    script.textContent = `document.getElementById("Get_ENV_Variable").innerHTML = ENV.STUDENT_PLANNER_COURSES ? JSON.stringify(ENV.STUDENT_PLANNER_COURSES) : null`;
 
-      document.head.appendChild(script);
+    document.head.appendChild(script);
 
-      const courses = JSON.parse(
-        document.querySelector("#Get_ENV_Variable").innerHTML
-      );
+    jsonCourses = document.getElementById("Get_ENV_Variable").innerHTML;
 
-      chrome.storage.sync.set({ courses: courses }, function () {
-        alert("Courses Set!");
-      });
+    if (jsonCourses) {
+      const courses = JSON.parse(jsonCourses);
+      // Stores Courses
+      chrome.storage.local.set({ courses: courses });
     }
-  });
+  }
+  /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MODULES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+  if (window.location.pathname === "/courses/:course/modules") {
+    console.log(course);
+  }
 };
