@@ -16,6 +16,23 @@ window.onload = function () {
       });
     }
   };
+  /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ EVERYTHING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+  const menu = document.getElementById("menu");
+  const modulesTab = document.createElement("li");
+  const modulesTabButton = document.createElement("button");
+  const modulesTabAnchor = document.createElement("a");
+  modulesTabAnchor.setAttribute("class", "ic-app-header__menu-list-link");
+
+  chrome.storage.local.get(["courses"], (result) => {
+    modulesTabAnchor.setAttribute(
+      "href",
+      `https://dsd.instructure.com/courses/${result.courses[0].id}/modules`
+    );
+  });
+
+  menu.appendChild(modulesTab);
+  modulesTab.appendChild(modulesTabAnchor);
+  modulesTabAnchor.innerHTML = "Modules";
 
   /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DASHBOARD ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
   if (window.location.pathname === "/") {
@@ -40,7 +57,7 @@ window.onload = function () {
       button.setAttribute("role", "button");
       button.setAttribute("class", "Button");
       button.innerHTML = words;
-      document.querySelector("#main").appendChild(button);
+      document.querySelector("#content > div.header-bar").appendChild(button);
     };
 
     chrome.storage.local.get(["courses", "currentCourseID"], (result) => {
