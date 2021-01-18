@@ -3,10 +3,6 @@
   "version": "1.0",
   "description": "Gives you additional functionality for canvas",
   "permissions": ["storage"],
-  "background": {
-    "scripts": ["background.js"],
-    "persistent": false
-  },
   "content_scripts": [
     {
       "matches": ["https://dsd.instructure.com/*"],
